@@ -1,20 +1,19 @@
-# Imagen base oficial con Python
-FROM python:3.11-slim
+FROM python:3.12-alpine
 
-# Directorio de trabajo
-WORKDIR /app
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# Copiar requirements y instalar dependencias
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN apk update \
+    && apk add --no-cache gcc musl-dev mysql-dev python3-dev libffi-dev \
+    && pip install --upgrade pip
 
-# Copiar código fuente
-COPY ./app ./app
+COPY requirements.txt /code/requirements.txt
 
-# Exponer puerto
-EXPOSE 8000
+RUN pip install -r  /code/requirements.txt
 
-# Comando para ejecutar la app
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+COPY . /code/
+WORKDIR /code/
 
-se requiere licencia para usar el conetor de mysql de powerapps
+CMD ["sh", "entrypoint.sh"]
+

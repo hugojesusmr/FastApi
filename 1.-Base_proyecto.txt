@@ -1,0 +1,74 @@
+0.- [Estructura Inicial]
+
+     -> Crear carpeta donde va a estar el proyecto
+       Linux
+        -> mkdir nombreDelProyecto: [fastapi]
+
+1.- [crear un entorno]
+
+    -> py -m venv venv
+
+    1.1 [Estructura de la Carpeta]    
+        
+        [fastapi]
+          |
+          |--[venv]
+
+2.- [Acceder al entorno] 
+    Linux
+        -> source /venv/bin/activate
+    Win
+        -> ./venv/scripts/activate
+
+    2.1 [Instalar dependencias]
+
+        -> fastapi uvicorn sqlalchemy python-dotenv python-multipart pymysql pandas pydantic openpayxl numpy 
+
+    2.2 [Estructural de la Carpeta]
+        
+        Dentro de la carpeta fastapi crear la carpeta app y dentro el archivo main.py
+        [fastapi]
+          |
+          |--[app]
+          |    |-- main.py
+          |
+          |--[venv]
+
+    2.3 [Archivo main.py]
+        
+        from fastapi import FastAPI
+        app = FastAPI()
+
+        @app.get("/")
+        async def read_root():
+            return {"Hello": "World"}
+
+3.- [levantar servidor]
+
+    -> uvicorn main:app
+    -> uvicorn main:app --port 8000 --reload
+    -> uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+4.- [Guardar librerias ]
+
+   * Crear archivo requeriments.txt
+  
+     -> pip freeze > requeriments.txt
+
+5.- [Crear Estructura de Proyecto]
+
+    [fastapi]
+      |
+      |--[app] -> Directorio principal de la aplicación donde reside todo el código de la aplicación
+      |    |--[core] -> Configuración de la conexion a la BD con variables de entorno.
+      |    |--[crud]
+      |    |--[db] -> Contiene la lógica de conexión a la base de datos y gestión de sesiones
+      |    |--[models] -> Contiene modelos de base de datos
+      |    |--[routers]
+      |    |--[schemas] -> Contiene modelos de Pydantic para la validación y serialización de datos
+      |    |--main.py -> El punto de entrada para tu aplicación FastAPI.
+      |--[venv] -> Permite la creación de entornos de proyecto aislados para gestionar las dependencias de manera efectiva. 
+      |--requeriments.txt -> Enumera las dependencias requeridas para el proyecto.
+    
+
+
