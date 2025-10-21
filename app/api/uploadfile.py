@@ -1,11 +1,11 @@
 import io
 import uuid
 import time
-from datetime import date, datetime
 import numpy as np
 import pandas as pd
 from io import BytesIO
 from sqlalchemy import select
+from datetime import date, datetime
 from typing import Optional, Dict, Any
 from app.db.session import get_session
 from app.models.models import ExcelData
@@ -137,7 +137,6 @@ async def insert_data(file_id: str, session: AsyncSession = Depends(get_session)
         df[col] = df[col].astype(str)
     
     all_data = df.to_dict('records')
-
     records_save = [ExcelData(data=row_dict, file_id=file_id) for row_dict in all_data]
     try:
         session.add_all(records_save)

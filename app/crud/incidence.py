@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.models.incidence import Incidence
 from app.schemas.incidence import IncidenceCreate
 
-def create_incidence(db: Session, incidence: IncidenceCreate):
+async def create_incidence(db: Session, incidence: IncidenceCreate):
     db_incidence = Incidence(**incidence.dict())
     db.add(db_incidence)
     db.commit()
