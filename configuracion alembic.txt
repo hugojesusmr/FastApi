@@ -1,0 +1,10 @@
+[Instalación de Alembic]
+
+1.- Instalación de Librerias
+  -> pip install alembic python-dtenv aiomysql
+
+2.- Inicializar proyecto
+
+  -> alembic init alembic
+
+    
