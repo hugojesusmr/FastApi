@@ -57,6 +57,7 @@ class TareaRead(TareaBase):
 class TareaUpdate(TareaBase):
     id_tarea: Optional[str] = None
 
+# Esquemas de autenticación
 class UserBase(SQLModel):
     email: str
     username: str
@@ -76,3 +77,50 @@ class UserLogin(SQLModel):
 class Token(SQLModel):
     access_token: str
     token_type: str
+
+class TokenData(SQLModel):
+    username: Optional[str] = None
+
+# Esquemas para LLM
+class ChatQuery(SQLModel):
+    question: str
+    context_limit: Optional[int] = 5
+
+class ChatResponse(SQLModel):
+    answer: str
+    sources: list[str]
+    query_used: str
+
+# Esquemas para ML Dashboard
+class TaskMetrics(SQLModel):
+    total_tasks: int
+    completed_tasks: int
+    pending_tasks: int
+    high_priority_tasks: int
+    avg_completion_time: float
+
+class ProductivityTrend(SQLModel):
+    date: str
+    completed_count: int
+    created_count: int
+    efficiency_score: float
+
+class PriorityDistribution(SQLModel):
+    priority: str
+    count: int
+    percentage: float
+
+class AssigneePerformance(SQLModel):
+    assignee: str
+    completed_tasks: int
+    avg_time: float
+    efficiency_score: float
+
+class MLDashboardResponse(SQLModel):
+    metrics: TaskMetrics
+    productivity_trends: list[ProductivityTrend]
+    priority_distribution: list[PriorityDistribution]
+    assignee_performance: list[AssigneePerformance]
+    bottlenecks: list[str]
+    predictions: dict
+

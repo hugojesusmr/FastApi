@@ -1,8 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Optional
-import jwt
+from jose import JWTError, jwt
 import bcrypt
-from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 from fastapi import HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -60,7 +59,7 @@ async def get_current_user(
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
-    except InvalidTokenError:
+    except JWTError:
         raise credentials_exception
     
     result = await session.exec(select(User).where(User.username == username))

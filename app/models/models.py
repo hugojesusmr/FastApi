@@ -20,7 +20,7 @@ class Tareas(SQLModel, table=True):
     trimestre: Optional[str] = None
     tipo_de_solicitud: Optional[str] = None
     motivo_del_estado: Optional[str] = None
-    fechas_solicitud_almacen: Optional[datetime] = None
+    fecha_solicitud_almacen: Optional[datetime] = None
     fecha_liberacion_almacen: Optional[datetime] = None
     fecha_entrega_en_sitio: Optional[datetime] = None
     fecha_solicitud_a_proveedor: Optional[datetime] = None
@@ -28,7 +28,7 @@ class Tareas(SQLModel, table=True):
     fecha_entrega_en_sitio_spms: Optional[datetime] = None
     tipo_de_transporte: Optional[str] = None
     asignado_a: Optional[str] = None
-    region_operativa: Optional[str] = None
+    region: Optional[str] = None
     motivo_fuera_de_sla: Optional[str] = None
     
     # Columnas calculadas
