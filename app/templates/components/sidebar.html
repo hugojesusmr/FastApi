@@ -1,0 +1,32 @@
+<!-- Sidebar Component -->
+<aside class="sidebar" id="sidebar">
+    <ul class="nav-menu">
+        {% block nav_items %}
+        <li class="nav-item">
+            <button class="nav-link active" onclick="switchTab('overview')">
+                <span>📊</span> <span>Resumen</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" onclick="switchTab('upload')">
+                <span>📤</span> <span>Cargar</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" onclick="switchTab('regions')">
+                <span>🗺️</span> <span>Regiones</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" onclick="switchTab('analytics')">
+                <span>📈</span> <span>Análisis</span>
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" onclick="switchTab('settings')">
+                <span>⚙️</span> <span>Configuración</span>
+            </button>
+        </li>
+        {% endblock %}
+    </ul>
+</aside>

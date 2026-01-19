@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Overview Tab -->
+<div id="overview-tab">
+    <div class="cards-grid">
+        <div class="card">
+            <div class="card-icon">📊</div>
+            <div class="card-label">Total Archivos</div>
+            <div class="card-value">24</div>
+        </div>
+        <div class="card">
+            <div class="card-icon">✓</div>
+            <div class="card-label">Procesados</div>
+            <div class="card-value">18</div>
+        </div>
+        <div class="card">
+            <div class="card-icon">⏳</div>
+            <div class="card-label">En Proceso</div>
+            <div class="card-value">4</div>
+        </div>
+        <div class="card">
+            <div class="card-icon">⚠️</div>
+            <div class="card-label">Errores</div>
+            <div class="card-value">2</div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Tab -->
+<div id="upload-tab" style="display: none;">
+    <div class="upload-card">
+        <h2 class="upload-title">Cargar Archivos</h2>
+        <form action="/upload" class="dropzone" id="uploadForm">
+            <div class="dz-message" style="position: relative;">
+                <img src="/static/img/pngegg.png" style="position: absolute; width: 300px; height: 300px; opacity: 0.15; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 0;" />
+                <div style="position: relative; z-index: 1;">
+                    <strong>Arrastra archivos aquí o haz clic para seleccionar</strong><br>
+                    <span>Soporta Excel, CSV y otros formatos</span>
+                </div>
+            </div>
+        </form>
+        <div id="fileList" style="margin-top: 20px; display: none;">
+            <div style="font-size: 14px; font-weight: 600; color: #2d3748; margin-bottom: 12px;">Archivos seleccionados:</div>
+            <div id="filesContainer" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            <div style="display: flex; gap: 12px; margin-top: 16px;">
+                <button id="uploadFilesBtn" class="upload-button" style="padding: 10px 24px; background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 212, 255, 0.25); display: flex; align-items: center; gap: 8px;">Subir</button>
+            </div>
+        </div>
+        <span id="uploadStatus" style="display: block; margin-top: 10px; font-size: 14px; font-weight: 600;"></span>
+    </div>
+</div>
+
+<!-- Analytics Tab -->
+<div id="analytics-tab" style="display: none;">
+    <div class="upload-card">
+        <h2 class="upload-title">Análisis</h2>
+        <p style="color: #7f8c8d;">Análisis en desarrollo...</p>
+    </div>
+</div>
+
+<!-- Settings Tab -->
+<div id="settings-tab" style="display: none;">
+    <div class="upload-card">
+        <h2 class="upload-title">Configuración</h2>
+        <div style="color: #7f8c8d;">
+            <p>Tema: Claro</p>
+            <p>Notificaciones: Activadas</p>
+            <p>Idioma: Español</p>
+        </div>
+    </div>
+</div>
+
+<!-- Regions Tab -->
+<div id="regions-tab" style="display: none;">
+    <div style="padding: 20px; margin-bottom: 20px; background: white; border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.15);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="font-size: 13px; font-weight: 600; color: #2d3748; text-transform: uppercase; letter-spacing: 0.5px;">Filtros</div>
+            <button id="toggleFiltersBtn" onclick="toggleFilters()" style="padding: 8px 12px; background: none; color: #00d4ff; border: none; border-radius: 6px; font-size: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">▼</button>
+        </div>
+        <div id="filtersContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px;">
+            <input type="text" id="filterId" placeholder="ID" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterSiteCode" placeholder="Site Code" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterLocation" placeholder="Ubicación" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterService" placeholder="Service PANDA" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterCity" placeholder="Ciudad" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterState" placeholder="Estado" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterNetwork" placeholder="Tipo de Red" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterRegion" placeholder="Región" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterCoordinator" placeholder="Coordinador" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterEngineer" placeholder="Ingeniero" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterKM" placeholder="KM" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterEngineering" placeholder="Ingeniería" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+            <input type="text" id="filterKMZ" placeholder="KMZ" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        </div>
+        <div id="activeFilters" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+    </div>
+    <div class="table-wrapper" style="border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.15); overflow: hidden;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: white; border-bottom: 1px solid rgba(0, 212, 255, 0.15); position: sticky; top: 0; z-index: 10;">
+            <div style="font-size: 13px; font-weight: 600; color: #2d3748; text-transform: uppercase; letter-spacing: 0.5px;">Tabla de Regiones</div>
+            <button id="toggleTableBtn" onclick="toggleTable()" style="padding: 8px 12px; background: none; color: #00d4ff; border: none; border-radius: 6px; font-size: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">▼</button>
+        </div>
+        <div id="tableContainer">
+        <table id="regionsTable" class="regions-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Site Code</th>
+                    <th>Ubicación</th>
+                    <th>Service PANDA</th>
+                    <th>Ciudad</th>
+                    <th>Estado</th>
+                    <th>Tipo de Red</th>
+                    <th>Región</th>
+                    <th>Coordinador</th>
+                    <th>Ingeniero</th>
+                    <th>KM</th>
+                    <th>Ingeniería</th>
+                    <th>KMZ</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr class="empty-row">
+                    <td colspan="15">Cargando datos...</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="pagination">
+        <button id="prevBtn" class="pagination-btn">&lt;&lt;</button>
+        <span id="pageInfo" class="page-info">Pág 1</span>
+        <button id="nextBtn" class="pagination-btn">&gt;&gt;</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/regions.css">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleFilters() {
+    const container = document.getElementById('filtersContainer');
+    const btn = document.getElementById('toggleFiltersBtn');
+    if (container.style.display === 'none') {
+        container.style.display = 'grid';
+        btn.textContent = '▲';
+    } else {
+        container.style.display = 'none';
+        btn.textContent = '▼';
+    }
+}
+function toggleTable() {
+    const container = document.getElementById('tableContainer');
+    const btn = document.getElementById('toggleTableBtn');
+    if (container.style.display === 'none') {
+        container.style.display = 'block';
+        btn.textContent = '▲';
+    } else {
+        container.style.display = 'none';
+        btn.textContent = '▼';
+    }
+}
+</script>
+<script src="/static/js/regions.js"></script>
+{% endblock %}

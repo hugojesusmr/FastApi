@@ -1,7 +1,8 @@
 from typing import Optional
 from datetime import datetime
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel
 
+<<<<<<< HEAD
 class TareaBase(SQLModel):
     grupo_de_asignacion: Optional[str] = None
     plataforma: Optional[str] = None
@@ -70,6 +71,21 @@ class UserRead(UserBase):
     is_active: bool
     created_at: datetime
 
+=======
+# Esquemas de autenticación
+class UserBase(SQLModel):
+    email: str
+    username: str
+
+class UserCreate(UserBase):
+    password: str
+
+class UserRead(UserBase):
+    id: int
+    is_active: bool
+    created_at: datetime
+
+>>>>>>> 8150643 (update)
 class UserLogin(SQLModel):
     username: str
     password: str
@@ -81,6 +97,7 @@ class Token(SQLModel):
 class TokenData(SQLModel):
     username: Optional[str] = None
 
+<<<<<<< HEAD
 # Esquemas para LLM
 class ChatQuery(SQLModel):
     question: str
@@ -124,3 +141,40 @@ class MLDashboardResponse(SQLModel):
     bottlenecks: list[str]
     predictions: dict
 
+=======
+# Esquemas de Región
+class RegionBase(SQLModel):
+    site_code: str
+    location_name: str
+    service_panda: Optional[str] = None
+    city: str
+    state: str
+    tipo_de_red: str
+    region: str
+    coordinador: Optional[str] = None
+    ingeniero: Optional[str] = None
+    km: Optional[float] = None
+    ingenieria: Optional[str] = None
+    kmz: Optional[str] = None
+
+class RegionCreate(RegionBase):
+    pass
+
+class RegionRead(RegionBase):
+    id: int
+    created_at: datetime
+
+class RegionUpdate(SQLModel):
+    site_code: Optional[str] = None
+    location_name: Optional[str] = None
+    service_panda: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    tipo_de_red: Optional[str] = None
+    region: Optional[str] = None
+    coordinador: Optional[str] = None
+    ingeniero: Optional[str] = None
+    km: Optional[float] = None
+    ingenieria: Optional[str] = None
+    kmz: Optional[str] = None
+>>>>>>> 8150643 (update)

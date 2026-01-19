@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Regiones{% endblock %}
+
+{% block header_title %}Regiones{% endblock %}
+
+{% block content %}
+<div class="table-wrapper">
+    <table id="regionsTable" class="regions-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Site Code</th>
+                <th>Ubicación</th>
+                <th>Service PANDA</th>
+                <th>Ciudad</th>
+                <th>Estado</th>
+                <th>Tipo de Red</th>
+                <th>Región</th>
+                <th>Coordinador</th>
+                <th>Ingeniero</th>
+                <th>KM</th>
+                <th>Ingeniería</th>
+                <th>KMZ</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr class="empty-row">
+                <td colspan="14">Cargando datos...</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="pagination">
+    <button id="prevBtn" class="pagination-btn">Anterior</button>
+    <span id="pageInfo" class="page-info">Página 1</span>
+    <button id="nextBtn" class="pagination-btn">Siguiente</button>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/regions.css">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+window.addEventListener('load', () => {
+    const table = document.querySelector('.regions-table');
+    if (table) {
+        const thead = table.querySelector('thead');
+        const tbody = table.querySelector('tbody');
+        
+        if (thead) {
+            const ths = thead.querySelectorAll('th');
+            if (ths[0] && ths[0].textContent.trim() === 'Acciones') {
+                thead.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>Site Code</th>
+                        <th>Ubicación</th>
+                        <th>Service PANDA</th>
+                        <th>Ciudad</th>
+                        <th>Estado</th>
+                        <th>Tipo de Red</th>
+                        <th>Región</th>
+                        <th>Coordinador</th>
+                        <th>Ingeniero</th>
+                        <th>KM</th>
+                        <th>Ingeniería</th>
+                        <th>KMZ</th>
+                    </tr>
+                `;
+            }
+        }
+        
+        if (tbody) {
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const tds = row.querySelectorAll('td');
+                if (tds.length > 14) {
+                    tds[0].remove();
+                }
+            });
+        }
+    }
+});
+</script>
+<script src="/static/js/regions.js?v=3"></script>
+{% endblock %}
