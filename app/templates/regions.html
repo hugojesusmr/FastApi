@@ -5,7 +5,33 @@
 {% block header_title %}Regiones{% endblock %}
 
 {% block content %}
-<div class="table-wrapper">
+<div style="padding: 20px; margin-bottom: 20px; background: white; border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.15);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="font-size: 13px; font-weight: 600; color: #2d3748; text-transform: uppercase; letter-spacing: 0.5px;">Filtros</div>
+        <button id="toggleFiltersBtn" onclick="toggleFilters()" style="padding: 8px 12px; background: none; color: #00d4ff; border: none; border-radius: 6px; font-size: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">▼</button>
+    </div>
+    <div id="filtersContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px;">
+        <input type="text" id="filterId" placeholder="ID" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterSiteCode" placeholder="Site Code" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterLocation" placeholder="Ubicación" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterService" placeholder="Service PANDA" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterCity" placeholder="Ciudad" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterState" placeholder="Estado" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterNetwork" placeholder="Tipo de Red" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterRegion" placeholder="Región" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterCoordinator" placeholder="Coordinador" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterEngineer" placeholder="Ingeniero" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterKM" placeholder="KM" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterEngineering" placeholder="Ingeniería" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+        <input type="text" id="filterKMZ" placeholder="KMZ" style="padding: 10px 14px; border: 1px solid rgba(0, 212, 255, 0.4); border-radius: 8px; font-size: 13px; background: white; color: #2d3748; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#00d4ff'" onmouseout="this.style.borderColor='rgba(0, 212, 255, 0.4)'" onfocus="this.style.boxShadow='0 0 0 3px rgba(0, 212, 255, 0.15)'" onblur="this.style.boxShadow='none'">
+    </div>
+    <div id="activeFilters" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+</div>
+<div class="table-wrapper" style="border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.15); overflow: hidden;">
+    <div class="table-header">
+        <div style="font-size: 13px; font-weight: 600; color: #2d3748; text-transform: uppercase; letter-spacing: 0.5px;">Tabla de Regiones</div>
+    </div>
+    <div id="tableContainer">
     <table id="regionsTable" class="regions-table">
         <thead>
             <tr>
@@ -22,20 +48,21 @@
                 <th>KM</th>
                 <th>Ingeniería</th>
                 <th>KMZ</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody id="tableBody">
             <tr class="empty-row">
-                <td colspan="14">Cargando datos...</td>
+                <td colspan="15">Cargando datos...</td>
             </tr>
         </tbody>
     </table>
+    </div>
 </div>
-
 <div class="pagination">
-    <button id="prevBtn" class="pagination-btn">Anterior</button>
-    <span id="pageInfo" class="page-info">Página 1</span>
-    <button id="nextBtn" class="pagination-btn">Siguiente</button>
+    <button id="prevBtn" class="pagination-btn">&lt;&lt;</button>
+    <span id="pageInfo" class="page-info">Pág 1</span>
+    <button id="nextBtn" class="pagination-btn">&gt;&gt;</button>
 </div>
 
 {% endblock %}
@@ -46,46 +73,17 @@
 
 {% block extra_js %}
 <script>
-window.addEventListener('load', () => {
-    const table = document.querySelector('.regions-table');
-    if (table) {
-        const thead = table.querySelector('thead');
-        const tbody = table.querySelector('tbody');
-        
-        if (thead) {
-            const ths = thead.querySelectorAll('th');
-            if (ths[0] && ths[0].textContent.trim() === 'Acciones') {
-                thead.innerHTML = `
-                    <tr>
-                        <th>ID</th>
-                        <th>Site Code</th>
-                        <th>Ubicación</th>
-                        <th>Service PANDA</th>
-                        <th>Ciudad</th>
-                        <th>Estado</th>
-                        <th>Tipo de Red</th>
-                        <th>Región</th>
-                        <th>Coordinador</th>
-                        <th>Ingeniero</th>
-                        <th>KM</th>
-                        <th>Ingeniería</th>
-                        <th>KMZ</th>
-                    </tr>
-                `;
-            }
-        }
-        
-        if (tbody) {
-            const rows = tbody.querySelectorAll('tr');
-            rows.forEach(row => {
-                const tds = row.querySelectorAll('td');
-                if (tds.length > 14) {
-                    tds[0].remove();
-                }
-            });
-        }
+function toggleFilters() {
+    const container = document.getElementById('filtersContainer');
+    const btn = document.getElementById('toggleFiltersBtn');
+    if (container.style.display === 'none') {
+        container.style.display = 'grid';
+        btn.textContent = '▲';
+    } else {
+        container.style.display = 'none';
+        btn.textContent = '▼';
     }
-});
+}
 </script>
 <script src="/static/js/regions.js?v=3"></script>
 {% endblock %}

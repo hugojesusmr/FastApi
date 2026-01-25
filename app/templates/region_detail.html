@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Detalles de Región{% endblock %}
+
+{% block header_title %}Detalles de la Región{% endblock %}
+
+{% block content %}
+<div style="padding: 20px;">
+    <a href="/regions" style="display: inline-block; margin-bottom: 20px; padding: 10px 20px; background: rgba(0, 212, 255, 0.08); color: #00d4ff; border: 1px solid rgba(0, 212, 255, 0.3); border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px;">← Volver a Regiones</a>
+    
+    <div style="background: white; border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.15); padding: 40px;">
+        <h1 id="regionTitle" style="font-size: 24px; font-weight: 800; background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 30px;"></h1>
+        
+        <div id="regionDetails" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;"></div>
+    </div>
+</div>
+
+<script>
+    async function loadRegionDetails() {
+        const params = new URLSearchParams(window.location.search);
+        const regionId = params.get('id');
+        
+        if (!regionId) {
+            document.getElementById('regionDetails').innerHTML = '<p>No se especificó región</p>';
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/regions/?id=${regionId}`);
+            const data = await response.json();
+            
+            if (data.length === 0) {
+                document.getElementById('regionDetails').innerHTML = '<p>Región no encontrada</p>';
+                return;
+            }
+            
+            const region = data[0];
+            document.getElementById('regionTitle').textContent = region.site_code || 'Detalles de la Región';
+            
+            const fields = [
+                { label: 'ID', value: region.id },
+                { label: 'Site Code', value: region.site_code },
+                { label: 'Ubicación', value: region.location_name },
+                { label: 'Service PANDA', value: region.service_panda },
+                { label: 'Ciudad', value: region.city },
+                { label: 'Estado', value: region.state },
+                { label: 'Tipo de Red', value: region.tipo_de_red },
+                { label: 'Región', value: region.region },
+                { label: 'Coordinador', value: region.coordinador },
+                { label: 'Ingeniero', value: region.ingeniero },
+                { label: 'KM', value: region.km },
+                { label: 'Ingeniería', value: region.ingenieria },
+                { label: 'KMZ', value: region.kmz }
+            ];
+            
+            let html = '';
+            fields.forEach(field => {
+                html += `
+                    <div style="padding: 15px; background: white; border-radius: 8px; border: 1px solid rgba(0, 212, 255, 0.3);">
+                        <div style="font-size: 10px; font-weight: 700; color: #00d4ff; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">${field.label}</div>
+                        <div style="font-size: 12px; color: #2d3748; font-weight: 500;">${field.value || '-'}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('regionDetails').innerHTML = html;
+        } catch (err) {
+            document.getElementById('regionDetails').innerHTML = `<p>Error al cargar: ${err.message}</p>`;
+        }
+    }
+    
+    loadRegionDetails();
+</script>
+{% endblock %}

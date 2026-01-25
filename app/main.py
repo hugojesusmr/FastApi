@@ -40,3 +40,7 @@ async def dashboard(request: Request):
 @app.get("/regions", response_class=HTMLResponse)
 async def regions(request: Request):
     return templates.TemplateResponse("regions.html", {"request": request})
+
+@app.get("/region-detail", response_class=HTMLResponse)
+async def region_detail(request: Request):
+    return templates.TemplateResponse("region_detail.html", {"request": request})

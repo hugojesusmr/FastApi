@@ -100,7 +100,7 @@ function renderTable() {
 
 function updatePagination() {
     const totalPages = Math.ceil(allRegions.length / itemsPerPage);
-    pageInfo.textContent = `Página ${currentPage} de ${totalPages || 1}`;
+    pageInfo.textContent = `Pág ${currentPage} de ${totalPages || 1}`;
     prevBtn.disabled = currentPage === 1;
     nextBtn.disabled = currentPage === totalPages || totalPages === 0;
 }
@@ -155,7 +155,7 @@ function toggleMenu(event, regionId) {
 }
 
 function viewRegion(regionId) {
-    alert(`Ver región ${regionId}`);
+    window.location.href = `/region-detail?id=${regionId}`;
 }
 
 function editRegion(regionId) {
