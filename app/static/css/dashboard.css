@@ -113,25 +113,34 @@ body {
 .container {
     display: flex;
     height: 800px;
-    gap: 15px;
+    gap: 30px;
     margin-top: 80px;
+    padding: 0 20px;
 }
 
 /* Sidebar */
 .sidebar {
     background: white;
     border-radius: 16px;
-    padding: 20px;
+    padding: 30px 20px;
     width: 80px;
     transition: all 0.3s ease;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.06), 0 0 40px rgba(0, 0, 0, 0.03);
-    border: 1px solid rgba(0, 212, 255, 0.15);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1),
+                0 0 40px rgba(255, 255, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     min-height: 800px;
+    transform: translateZ(30px);
 }
 
 .sidebar:hover {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1), 0 0 60px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15),
+                0 0 60px rgba(255, 255, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    transform: translateZ(40px);
 }
 
 .sidebar.expanded {
@@ -224,13 +233,21 @@ body {
     border-radius: 16px;
     padding: 24px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(0, 212, 255, 0.2);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.06), 0 0 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1),
+                0 0 40px rgba(255, 255, 255, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    transform: translateZ(20px);
 }
 
 .card:hover {
     border-color: #00d4ff;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), 0 0 50px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15),
+                0 0 60px rgba(255, 255, 255, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    transform: translateZ(30px) translateY(-5px);
 }
 
 .card-icon {
@@ -519,3 +536,4 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+

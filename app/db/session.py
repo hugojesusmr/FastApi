@@ -3,11 +3,23 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession 
 
-engine = create_async_engine(settings.DATABASE_URL, echo=True)
+# 1.- 
+engine = create_async_engine(
+    settings.DATABASE_URL, 
+    echo=True,
+    future =True)
 
-AsyncSessionFactory = sessionmaker(engine , class_=AsyncSession, expire_on_commit=False)
+# 2.- Generador de sesiónes (Factory)--
+AsyncSessionFactory = sessionmaker(
+    engine , 
+    class_=AsyncSession, 
+    expire_on_commit=False)
 
-async def get_session():
+# 3.- Función de Inyección (Dependency)
+async def get_session() -> AsyncSession:
+    """
+    Inyección de dependencia para obtener una sesión de base de datos.
+    """
     async with AsyncSessionFactory() as session:
         try:
             yield session

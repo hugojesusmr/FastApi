@@ -2,7 +2,6 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_session
 from app.core.auth import get_current_active_user
-from app.core.ml_analytics import MLAnalyticsService
 from app.schemas.schemas import MLDashboardResponse
 from app.models.models import User
 

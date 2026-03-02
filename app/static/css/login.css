@@ -16,14 +16,10 @@ body {
 
 .login-wrapper {
     width: 100%;
-    max-width: 1000px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    padding: 60px 40px;
-    align-items: center;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
     animation: slideUp 0.6s ease-out;
-    perspective: 1000px;
 }
 
 @keyframes slideUp {
@@ -39,74 +35,18 @@ body {
 
 /* Left Section - Description */
 .login-description {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    padding: 20px;
-    background: linear-gradient(135deg, #00d4ff 0%, #00b8ff 100%);
-    border-radius: 16px;
-    color: white;
-}
-
-.description-title {
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    color: white;
-    line-height: 1.2;
-}
-
-.description-text {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.8;
-    font-weight: 500;
-}
-
-.description-features {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.feature-item {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-}
-
-.feature-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-}
-
-.feature-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.feature-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: white;
-}
-
-.feature-desc {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.8);
+    display: none;
 }
 
 /* Right Section - Login Form */
 .login-form-section {
     display: flex;
     flex-direction: column;
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 50px 40px;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 40px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 212, 255, 0.2);
 }
 
 .login-header {
@@ -115,7 +55,6 @@ body {
 
 .login-title {
     font-size: 36px;
-    text-align:center;
     font-weight: 800;
     letter-spacing: -0.5px;
     background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
@@ -127,7 +66,6 @@ body {
 
 .login-subtitle {
     font-size: 15px;
-    text-align: center;
     color: #718096;
     font-weight: 500;
 }
@@ -149,20 +87,20 @@ body {
 .form-input {
     width: 100%;
     padding: 14px 16px;
-    border: 1.5px solid rgba(226, 232, 240, 0.5);
-    border-radius: 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
     font-size: 15px;
     font-family: inherit;
     transition: all 0.3s ease;
-    background: rgba(247, 250, 252, 0.6);
-    backdrop-filter: blur(5px);
+    background: #f7fafc;
+    box-sizing: border-box;
 }
 
 .form-input:focus {
     outline: none;
     border-color: #00d4ff;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
 }
 
 .form-input::placeholder {
@@ -179,7 +117,7 @@ body {
     background: linear-gradient(135deg, #00d4ff 0%, #0099ff 100%);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -206,10 +144,9 @@ body {
 
 .error-message {
     padding: 14px 16px;
-    background: rgba(254, 215, 215, 0.7);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(252, 129, 129, 0.5);
-    border-radius: 12px;
+    background: #fed7d7;
+    border: 1px solid #fc8181;
+    border-radius: 10px;
     color: #c53030;
     font-size: 14px;
     margin-bottom: 24px;
@@ -218,8 +155,8 @@ body {
 }
 
 .error-message.success {
-    background: rgba(198, 246, 213, 0.7);
-    border-color: rgba(154, 230, 180, 0.5);
+    background: #c6f6d5;
+    border-color: #9ae6b4;
     color: #22543d;
 }
 
