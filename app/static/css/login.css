@@ -1,54 +1,71 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --electric: #0070f3;
+    --deep-dark: #050505;
+    --glass: rgba(255, 255, 255, 0.03);
+    --border: rgba(255, 255, 255, 0.1);
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-    background: #ffffff;
-    min-height: 100vh;
+    background-color: var(--deep-dark);
+    margin: 0;
+    height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #1a202c;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+/* Mancha de color de fondo para el efecto Glass */
+.blob {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: var(--electric);
+    filter: blur(120px);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.4;
+    animation: move 10s infinite alternate;
+}
+
+@keyframes move {
+    from { transform: translate(-50%, -50%); }
+    to { transform: translate(20%, 20%); }
 }
 
 .login-wrapper {
     width: 100%;
     max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    animation: slideUp 0.6s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Left Section - Description */
-.login-description {
-    display: none;
-}
-
-/* Right Section - Login Form */
-.login-form-section {
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 16px;
+    background: var(--glass);
+    backdrop-filter: blur(25px) saturate(150%);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--border);
+    border-radius: 32px;
     padding: 40px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08), 0 0 40px rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    color: white;
 }
 
+.logo {
+    background: rgba(0, 112, 243, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.icon-electric { color: var(--electric); filter: drop-shadow(0 0 8px var(--electric)); }
+
+h2 { font-size: 2rem; margin-bottom: 8px; }
+.subtitle { color: #94a3b8; font-size: 0.9rem; margin-bottom: 30px; }
+
+.form-group { text-align: left; margin-bottom: 20px; }
+.form-group label { font-size: 0.8rem; color: #cbd5e1; margin-left: 5px; }
 .login-header {
     margin-bottom: 40px;
 }
@@ -71,41 +88,56 @@ body {
 }
 
 .form-group {
-    margin-bottom: 24px;
+    text-align: left;
+    margin-bottom: 20px;
 }
 
-.form-label {
-    display: block;
-    font-size: 13px;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05); /* Fondo base del input */
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-top: 8px;
+    overflow: hidden; /* Importante para que las esquinas del icon-box no se salgan */
+    transition: 0.3s;
 }
 
-.form-input {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: inherit;
-    transition: all 0.3s ease;
-    background: #f7fafc;
-    box-sizing: border-box;
+/* El contenedor del icono (La "Caja") */
+.icon-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px; /* Ajusta según el tamaño de tu input */
+    background: rgba(255, 255, 255, 0.03); /* Un toque más oscuro para distinguir */
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* LA LÍNEA DIVISORIA */
+    color: #94a3b8;
+    transition: 0.3s;
 }
 
-.form-input:focus {
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
     outline: none;
-    border-color: #00d4ff;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.15);
+    color: white;
+    padding: 0 15px;
+    font-size: 0.95rem;
 }
 
-.form-input::placeholder {
-    color: #cbd5e0;
+/* Efecto cuando el usuario hace clic (Focus) */
+.input-wrapper:focus-within {
+    border-color: var(--electric);
+    box-shadow: 0 0 15px rgba(0, 112, 243, 0.2);
 }
+
+.input-wrapper:focus-within .icon-box {
+    border-right-color: var(--electric); /* La línea se vuelve azul */
+    color: var(--electric); /* El icono se vuelve azul */
+    background: rgba(0, 112, 243, 0.05); /* Un tinte azul muy leve al fondo del icono */
+}
+
 
 #emailGroup {
     display: none;
