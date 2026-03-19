@@ -1,19 +1,29 @@
-<!-- Top Bar Component -->
-<div class="top-bar">
-    <div style="display: flex; align-items: center; gap: 15px;">
-        <button class="hamburger" onclick="toggleSidebar()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="logo">INGENIERIA FO</div>
-    </div>
-
-    <div class="user-section">
-        <div class="user-info">
-            <div class="user-avatar" id="userAvatar">U</div>
-            <div class="user-name" id="userName">Usuario</div>
+    <!-- CONTENEDOR TOPBAR -->
+    <header class="topbar card-hybrid">
+        <div class="content-topbar">
+            <button class="btn-menu" onclick="toggleSidebar()">
+                <i data-lucide="menu"></i>
+            </button>
+            <div class="topbar-titulo">IT Support</div>
         </div>
-        <button class="logout-btn" onclick="logout()">Cerrar Sesión</button>
-    </div>
-</div>
+
+        <!-- <div class="search-box">
+            <i data-lucide="search"></i>
+            <input type="text" placeholder="Buscar algo...">
+        </div> -->
+
+        <div class="topbar-usuario">
+            <span>Usuario</span>
+            <div class="circle-user">
+                <i data-lucide="user"></i>
+            </div>
+        </div>
+    </header>
+
+<script>
+    function handleLogout() {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('username');
+        window.location.href = '/';
+    }
+</script>

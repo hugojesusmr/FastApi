@@ -3,13 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession 
 
-# 1.- 
+# 1. --- Crear motor de conexión ---
 engine = create_async_engine(
     settings.DATABASE_URL, 
     echo=True,
     future =True)
 
-# 2.- Generador de sesiónes (Factory)--
+# 2. --- Generador de sesiónes Factory ----
 AsyncSessionFactory = sessionmaker(
     engine , 
     class_=AsyncSession, 
@@ -18,7 +18,8 @@ AsyncSessionFactory = sessionmaker(
 # 3.- Función de Inyección (Dependency)
 async def get_session() -> AsyncSession:
     """
-    Inyección de dependencia para obtener una sesión de base de datos.
+    Generador de sesiones para inyección de dependencias
+    Principio: Dependency Inversion
     """
     async with AsyncSessionFactory() as session:
         try:

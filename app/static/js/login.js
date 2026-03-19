@@ -34,7 +34,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-        const response = await fetch(endpoint, {
+        const response = await fetch(`http://localhost:8000${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)

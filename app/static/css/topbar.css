@@ -1,0 +1,74 @@
+ /* --- TOP BAR --- */
+.topbar {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    flex-shrink: 0; 
+}
+
+.content-topbar{
+    display: flex; 
+    gap: 15px; 
+    align-items: center;
+}
+
+    .btn-menu {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.btn-menu:hover { 
+    background: rgba(255, 255, 255, 0.2); 
+}
+
+.topbar-titulo{
+    font-weight: bold; 
+    font-size: 1.2rem; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+
+}
+
+.search-box {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 3px 3px 6px var(--shadow-dark), inset -3px -3px 6px var(--shadow-light);
+    padding: 8px 15px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none; outline: none;
+    margin-left: 10px; color: var(--text-main);
+    width: 100%;
+}
+
+.topbar-usuario{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; 
+    
+}
+
+.circle-user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px; 
+    height: 55px; 
+    border-radius: 50%; 
+}

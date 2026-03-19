@@ -1,32 +1,21 @@
 <!-- Sidebar Component -->
-<aside class="sidebar" id="sidebar">
-    <ul class="nav-menu">
-        {% block nav_items %}
-        <li class="nav-item">
-            <button class="nav-link active" onclick="switchTab('overview')">
-                <span>📊</span> <span>Resumen</span>
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" onclick="switchTab('upload')">
-                <span>📤</span> <span>Cargar</span>
-            </button>
-        </li>
-        <li class="nav-item">
-            <a href="/regions" class="nav-link">
-                <span>🗺️</span> <span>Regiones</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" onclick="switchTab('analytics')">
-                <span>📈</span> <span>Análisis</span>
-            </button>
-        </li>
-        <li class="nav-item">
-            <button class="nav-link" onclick="switchTab('settings')">
-                <span>⚙️</span> <span>Configuración</span>
-            </button>
-        </li>
-        {% endblock %}
-    </ul>
-</aside>
+ <!-- SIDEBAR -->
+  
+        <aside class="sidebar mini card-hybrid" id="sidebar">
+            <nav>
+                <a href="#" class="nav-item"><i data-lucide="home"></i><span>Dashboard</span></a>
+                <a href="#" class="nav-item"><i data-lucide="bar-chart-2"></i><span> Analíticas</span></a>
+                <a href="#" class="nav-item"><i data-lucide="mail"></i><span>Mensajes</span></a>
+                <a href="#" class="nav-item"><i data-lucide="bell"></i><span>Notificaciones</span></a>
+                <a href="#" class="nav-item"><i data-lucide="settings"></i> <span>Ajustes</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <a class="nav-item logout-link" onclick="handleLogout()">
+                    <i data-lucide="power"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </aside>
+  
+     
+

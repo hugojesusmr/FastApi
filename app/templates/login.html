@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="/static/css/login.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../static/js/lucide.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             lucide.createIcons();
@@ -13,10 +13,9 @@
     </script>
 </head>
 <body>
-    <div class="blob"></div>
     <div class="login-wrapper">
             <div class="logo">
-                <i data-lucide="rocket" class="icon-electric"></i>
+                <i data-lucide="codesandbox" class="icon-electric"></i>
             </div>
             <h2>Bienvenido</h2>
             <p class="subtitle">Ingresa tus credenciales para continuar</p>
@@ -48,13 +47,12 @@
                       <input type="password" name="password" class="form-input" placeholder="••••••••" required>
                     </div>
                 </div>
-
                 <button type="submit" class="submit-button" id="submitBtn">Iniciar Sesión</button>
 
-                <div class="toggle-container">
-                    <button type="button" class="toggle-button" id="toggleBtn">
-                        ¿No tienes cuenta? Regístrate
-                    </button>
+                <div class="footer">
+                    <p class="footer" id="toggleBtn">
+                        ¿No tienes cuenta? <span style="color: var(--accent); cursor: pointer;">Regístrate</span>
+                    </p>
                 </div>
             </form>
         </div>

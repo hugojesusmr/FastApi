@@ -1,28 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Dashboard{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css">
-    <link rel="stylesheet" href="/static/css/dashboard.css">
-    {% block extra_css %}{% endblock %}
-</head>
-<body>
-    {% include "components/topbar.html" %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Dashboard{% endblock %}</title>
+        {% include 'includes/styles.html' %}  
+        {% block extra_css %}{% endblock %}
+    </head>
+    <body>
+        
+        <!-- TOP BAR -->
+        {% include "components/topbar.html" %}
+        <div class="main-wrapper">
+            <!-- SIDEBAR -->
+            {% include "components/sidebar.html" %}
+            
+            <!-- AREA DE CONTENIDO CENTRAL -->
+            <main class="content-area">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        <!-- SCRIPTS -->
+        {% block extra_js %}{% endblock %}
+        {% include 'includes/scripts.html' %}  
+    </body>
+    
+<script>
+    lucide.createIcons();
 
-    <!-- Main Container -->
-    <div class="container">
-        {% include "components/sidebar.html" %}
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const isMobile = window.innerWidth <= 748;
 
-        <!-- Main Content -->
-        <main class="main-content">
-            {% block content %}{% endblock %}
-        </main>
-    </div>
+        if(isMobile){
+            sidebar.classList.toggle('active');
+            sidebar.classList.remove('mini');
+        }else{
+            sidebar.classList.toggle('mini');
+        }
+    }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
-    <script src="/static/js/dashboard.js"></script>
-    {% block extra_js %}{% endblock %}
-</body>
+</script>
 </html>
