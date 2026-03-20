@@ -1,9 +1,10 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
+from typing import Optional
 
 class UserCreate(BaseModel):
-    email: EmailStr
-    username: str = Field(..., min_length=3, max_length=50)
-    password: str = Field(..., min_length=8)
+    email: str
+    username: str
+    password: str
 
 class UserLogin(BaseModel):
     username: str
@@ -14,3 +15,6 @@ class UserResponse(BaseModel):
     email: str
     username: str
     is_active: bool
+    
+    class Config:
+        from_attributes = True

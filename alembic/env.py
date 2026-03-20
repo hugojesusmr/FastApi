@@ -5,9 +5,9 @@ from logging.config import fileConfig
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from app.core.config import settings
-from app.models.models import SQLModel
+from app.models.user import SQLModel
 # Importar todos los modelos para que Alembic los detecte
-from app.models.models import *  # noqa
+from app.models import *  # noqa
 
 config = context.config
 target_metadata = SQLModel.metadata

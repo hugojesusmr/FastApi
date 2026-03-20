@@ -12,11 +12,13 @@ toggleBtn.addEventListener('click', (e) => {
     title.textContent = isLogin ? 'Iniciar Sesión' : 'Registrarse';
     submitBtn.textContent = isLogin ? 'Iniciar Sesión' : 'Registrarse';
     toggleBtn.textContent = isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión';
-    emailGroup.style.display = isLogin ? 'none' : 'block';
+    
     const emailInput = emailGroup.querySelector('input[name="email"]');
     if (isLogin) {
+        emailGroup.style.display = 'none';
         emailInput.removeAttribute('required');
     } else {
+        emailGroup.style.display = 'block';
         emailInput.setAttribute('required', 'required');
     }
     errorMsg.style.display = 'none';
@@ -30,17 +32,26 @@ form.addEventListener('submit', async (e) => {
     errorMsg.style.display = 'none';
 
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
+    let data = Object.fromEntries(formData);
+    
+    // Filtrar datos según el modo
+    if (isLogin) {
+        data = { username: data.username, password: data.password };
+    } else {
+        data = { email: data.email, username: data.username, password: data.password };
+    }
 
     try {
         const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-        const response = await fetch(`http://localhost:8000${endpoint}`, {
+        console.log('Enviando datos:', data);
+        const response = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
 
         const result = await response.json();
+        console.log('Respuesta del servidor:', result);
 
         if (!response.ok) {
             throw new Error(result.detail || 'Error en la operación');

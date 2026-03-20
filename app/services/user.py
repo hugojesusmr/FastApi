@@ -39,9 +39,19 @@ class UserService:
         )
     
     async def authenticate_user(self, username: str, password: str) -> dict:
+        print(f"Intentando autenticar usuario: {username}")
         user = await self.user_repo.get_by_username(username)
+        print(f"Usuario encontrado: {user}")
         
-        if not user or not verify_password(password, user.hashed_password):
+        if not user:
+            print("Usuario no encontrado")
+            raise HTTPException(status_code=401, detail="Credenciales inválidas")
+        
+        password_valid = verify_password(password, user.hashed_password)
+        print(f"Contraseña válida: {password_valid}")
+        
+        if not password_valid:
+            print("Contraseña incorrecta")
             raise HTTPException(status_code=401, detail="Credenciales inválidas")
         
         access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)

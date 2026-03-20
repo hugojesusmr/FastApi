@@ -7,12 +7,12 @@ class Settings(BaseSettings):
     """ 
     Clase de configuración que carga variables de entorno
     """    
-    MYSQL_HOST: str
-    MYSQL_DB_NAME: str
-    MYSQL_USER: str
-    MYSQL_PASSWORD: str
-    MYSQL_PORT: int
-    TABLE_NAME: str
+    POSTGRES_HOST: str
+    POSTGRES_DB_NAME: str
+    POSTGRES_USER: str
+    POSTGRES_PASSWORD: str
+    POSTGRES_PORT: int
+    TABLE_NAME: str = "tareas"
  
     class Config:
         env_file = ".env"
@@ -20,6 +20,6 @@ class Settings(BaseSettings):
 
     @property
     def DATABASE_URL(self) -> str:
-           return f"mysql+aiomysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB_NAME}"
+           return f"postgresql+asyncpg://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB_NAME}"
 
 settings = Settings()     

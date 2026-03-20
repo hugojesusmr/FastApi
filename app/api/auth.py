@@ -11,9 +11,13 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserResponse)
 async def register(user: UserCreate, session: AsyncSession = Depends(get_session)):
-    user_repo = UserRepository(session)
-    user_service = UserService(user_repo)
-    return await user_service.register_user(user)
+    try:
+        user_repo = UserRepository(session)
+        user_service = UserService(user_repo)
+        return await user_service.register_user(user)
+    except Exception as e:
+        print(f"Error en registro: {str(e)}")
+        raise
 
 @router.post("/login")
 async def login(user: UserLogin, session: AsyncSession = Depends(get_session)):

@@ -10,7 +10,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     rm -f alembic/versions/*.py
     
     echo "Reiniciando base de datos..."
-    alembic stamp base
+    alembic stamp base 2>/dev/null || true
     
     echo "Creando migración inicial..."
     alembic revision --autogenerate -m "Migración inicial"

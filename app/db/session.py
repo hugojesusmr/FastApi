@@ -6,12 +6,12 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 # 1. --- Crear motor de conexión ---
 engine = create_async_engine(
     settings.DATABASE_URL, 
-    echo=True,
-    future =True)
+    echo=False,
+    future=True)
 
 # 2. --- Generador de sesiónes Factory ----
 AsyncSessionFactory = sessionmaker(
-    engine , 
+    engine, 
     class_=AsyncSession, 
     expire_on_commit=False)
 
@@ -25,8 +25,9 @@ async def get_session() -> AsyncSession:
         try:
             yield session
             await session.commit()
-        except Exception:
+        except Exception as e:
             await session.rollback()
+            print(f"Error en sesión: {e}")
             raise    
         finally:  
             await session.close()

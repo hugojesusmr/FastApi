@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/dark-mode.css">
+    <link rel="stylesheet" href="/static/css/light-mode.css">
     <script src="../static/js/lucide.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -14,48 +16,55 @@
 </head>
 <body>
     <div class="login-wrapper">
+        <div class="login-header">
             <div class="logo">
                 <i data-lucide="codesandbox" class="icon-electric"></i>
             </div>
-            <h2>Bienvenido</h2>
-            <p class="subtitle">Ingresa tus credenciales para continuar</p>
-
-            <form id="loginForm">
-                <div id="errorMessage" class="error-message" style="display: none;"></div>
-
-                <div id="emailGroup" class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" name="email" class="form-input" placeholder="tu@email.com">
-                </div>
-
-                <div class="form-group">
-                    <label>Usuario</label>
-                    <div class="input-wrapper">
-                         <div class="icon-box">
-                            <i data-lucide="user"></i>
-                        </div>
-                        <input type="text" name="username" placeholder="tu_usuario" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Contraseña</label>
-                    <div class="input-wrapper">
-                        <div class="icon-box">
-                            <i data-lucide="lock"></i>
-                        </div>
-                      <input type="password" name="password" class="form-input" placeholder="••••••••" required>
-                    </div>
-                </div>
-                <button type="submit" class="submit-button" id="submitBtn">Iniciar Sesión</button>
-
-                <div class="footer">
-                    <p class="footer" id="toggleBtn">
-                        ¿No tienes cuenta? <span style="color: var(--accent); cursor: pointer;">Regístrate</span>
-                    </p>
-                </div>
-            </form>
+            <h2 class="login-title" id="title">Iniciar Sesión</h2>
+            <p class="login-subtitle">Ingresa tus credenciales para continuar</p>
         </div>
+
+        <form id="loginForm">
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <div id="emailGroup" class="form-group" style="display: none;">
+                <label class="form-label">Email</label>
+                <div class="input-wrapper">
+                    <div class="icon-box">
+                        <i data-lucide="mail"></i>
+                    </div>
+                    <input type="email" name="email" placeholder="tu@email.com">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Usuario</label>
+                <div class="input-wrapper">
+                    <div class="icon-box">
+                        <i data-lucide="user"></i>
+                    </div>
+                    <input type="text" name="username" placeholder="tu_usuario" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Contraseña</label>
+                <div class="input-wrapper">
+                    <div class="icon-box">
+                        <i data-lucide="lock"></i>
+                    </div>
+                    <input type="password" name="password" placeholder="••••••••" required>
+                </div>
+            </div>
+            <button type="submit" class="submit-button" id="submitBtn">Iniciar Sesión</button>
+
+            <div class="toggle-container">
+                <p id="toggleBtn" class="toggle-button">
+                    ¿No tienes cuenta? <span style="cursor: pointer;">Regístrate</span>
+                </p>
+            </div>
+        </form>
+    </div>
 
     <script src="/static/js/login.js"></script>
 </body>

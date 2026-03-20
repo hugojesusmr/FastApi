@@ -1,3 +1,16 @@
 {
-    "amazonQ.telemetry": false
+    "amazonQ.telemetry": false,
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "postgress-prod",
+            "username": "postgres",
+            "password": "53CR3T00!",
+            "database": "midb"
+        }
+    ]
 }

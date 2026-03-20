@@ -1,8 +1,8 @@
 """Nueva Migración Automática
 
-Revision ID: 0b16d62bfd5f
-Revises: bfc4cefcc57f
-Create Date: 2025-10-30 20:57:54.121986
+Revision ID: fca1011d329f
+Revises: b6d29067b7b1
+Create Date: 2026-03-20 11:11:19.844770
 
 """
 from typing import Sequence, Union
@@ -13,8 +13,8 @@ import sqlmodel
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0b16d62bfd5f'
-down_revision: Union[str, Sequence[str], None] = 'bfc4cefcc57f'
+revision: str = 'fca1011d329f'
+down_revision: Union[str, Sequence[str], None] = 'b6d29067b7b1'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
