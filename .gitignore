@@ -1,0 +1,18 @@
+# OpenCode
+.opencode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+*.db
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/

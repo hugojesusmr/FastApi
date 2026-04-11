@@ -12,6 +12,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    email: '',
     password: '',
   });
 
@@ -67,6 +68,24 @@ const Login: React.FC = () => {
           {error && (
             <div className={`error-message ${error.includes('exitoso') ? 'success' : ''}`}>
               {error}
+            </div>
+          )}
+
+          {!isLogin && (
+            <div className="form-group">
+              <label>Email</label>
+              <div className="input-wrapper">
+                <div className="icon-box">
+                  <User size={20} />
+                </div>
+                <input
+                  type="email"
+                  placeholder="correo@ejemplo.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                />
+              </div>
             </div>
           )}
 

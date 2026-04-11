@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 
-const api = axios.create({
-  baseURL: '/api', // Proxied to backend
-});
+const api = axios.create({});
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('access_token');

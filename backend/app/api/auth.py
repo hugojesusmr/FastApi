@@ -7,7 +7,7 @@ from app.repositories.user import UserRepository
 from app.services.user import UserService
 from app.core.auth import get_current_active_user
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserResponse)
 async def register(user: UserCreate, session: AsyncSession = Depends(get_session)):
