@@ -1,7 +1,7 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import api from '../utils/api';
-import type { PdfExtractResponse, RegionExtractResponse } from '../types/pdf';
+import type { RegionExtractResponse } from '../types/pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import 'react-pdf/dist/Page/TextLayer.css';
 import './PdfUpload.css';
@@ -16,29 +16,110 @@ interface Selection {
   pageNumber: number;
 }
 
+interface PageDimensions {
+  width: number;
+  height: number;
+}
+
+const INITIAL_RENDER_PAGES = 5;
+const PAGE_LOAD_MARGIN = 3;
+
 export const PdfUpload: React.FC = () => {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(0);
-  const [pageWidth, setPageWidth] = useState(0);
-  const [pageHeight, setPageHeight] = useState(0);
+  const [pageDimensions, setPageDimensions] = useState<Record<number, PageDimensions>>({});
   const [selection, setSelection] = useState<Selection | null>(null);
   const [isSelecting, setIsSelecting] = useState(false);
   const [startPoint, setStartPoint] = useState<{ x: number; y: number; page: number } | null>(null);
   const [result, setResult] = useState<RegionExtractResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadedPages, setLoadedPages] = useState<number[]>([]);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const canvasRefs = useRef<Map<number, HTMLDivElement>>(new Map());
+  const lastScrollTop = useRef(0);
+
+  const getPageElement = useCallback((pageNumber: number): HTMLDivElement | null => {
+    return pageRefs.current.get(pageNumber) || null;
+  }, []);
+
+  const getCanvasElement = useCallback((pageNumber: number): HTMLDivElement | null => {
+    return canvasRefs.current.get(pageNumber) || null;
+  }, []);
+
+  useEffect(() => {
+    if (!pdfUrl || totalPages === 0) {
+      setLoadedPages([]);
+      return;
+    }
+
+    const initialPages = Array.from({ length: Math.min(INITIAL_RENDER_PAGES, totalPages) }, (_, i) => i + 1);
+    setLoadedPages(initialPages);
+  }, [pdfUrl, totalPages]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || totalPages === 0) return;
+
+    const handleScroll = () => {
+      const scrollTop = container.scrollTop;
+      if (Math.abs(scrollTop - lastScrollTop.current) < 50) return;
+      lastScrollTop.current = scrollTop;
+
+      const containerHeight = container.clientHeight;
+      const containerRect = container.getBoundingClientRect();
+
+      const lastLoaded = loadedPages.length > 0 ? Math.max(...loadedPages) : 0;
+
+      const newPages: number[] = [];
+      for (let i = lastLoaded + 1; i <= Math.min(lastLoaded + PAGE_LOAD_MARGIN, totalPages); i++) {
+        const pageEl = pageRefs.current.get(i);
+        if (pageEl) {
+          const rect = pageEl.getBoundingClientRect();
+          if (rect.top - containerRect.top < containerHeight + 200) {
+            newPages.push(i);
+          }
+        }
+      }
+
+      if (newPages.length > 0) {
+        setLoadedPages((prev) => [...new Set([...prev, ...newPages])].sort((a, b) => a - b));
+      }
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [totalPages, loadedPages]);
+
+  const setPageRef = useCallback((pageNumber: number) => (el: HTMLDivElement | null) => {
+    if (el) pageRefs.current.set(pageNumber, el);
+  }, []);
+
+  const setCanvasRef = useCallback((pageNumber: number) => (el: HTMLDivElement | null) => {
+    if (el) canvasRefs.current.set(pageNumber, el);
+  }, []);
+
+  const handlePageLoadSuccess = useCallback((pageNumber: number, page: { width: number; height: number }) => {
+    setPageDimensions((prev) => ({ ...prev, [pageNumber]: { width: page.width, height: page.height } }));
+  }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     setPdfFile(file);
     setPdfUrl(URL.createObjectURL(file));
     setSelection(null);
     setResult(null);
     setError(null);
+    setTotalPages(0);
+    setPageDimensions({});
+    setLoadedPages([]);
+    pageRefs.current.clear();
+    canvasRefs.current.clear();
   };
 
   const getRelativeCoords = (e: React.MouseEvent, pageEl: HTMLElement) => {
@@ -49,15 +130,9 @@ export const PdfUpload: React.FC = () => {
     };
   };
 
-  const getPageElement = (pageNumber: number): HTMLElement | null => {
-    return containerRef.current?.querySelector(
-      `.pdf-page-wrapper[data-page="${pageNumber}"] .react-pdf__Page`
-    ) as HTMLElement | null;
-  };
-
   const handleMouseDown = (e: React.MouseEvent, pageNumber: number) => {
     if (e.button !== 0) return;
-    const pageEl = getPageElement(pageNumber);
+    const pageEl = getCanvasElement(pageNumber);
     if (!pageEl) return;
     const { x, y } = getRelativeCoords(e, pageEl);
     setStartPoint({ x, y, page: pageNumber });
@@ -68,11 +143,11 @@ export const PdfUpload: React.FC = () => {
 
   const handleMouseMove = useCallback((e: React.MouseEvent, pageNumber: number) => {
     if (!isSelecting || !startPoint || startPoint.page !== pageNumber) return;
-    const pageEl = getPageElement(pageNumber);
+    const pageEl = getCanvasElement(pageNumber);
     if (!pageEl) return;
     const { x, y } = getRelativeCoords(e, pageEl);
     setSelection({ x0: startPoint.x, y0: startPoint.y, x1: x, y1: y, pageNumber });
-  }, [isSelecting, startPoint]);
+  }, [isSelecting, startPoint, getCanvasElement]);
 
   const handleMouseUp = () => {
     setIsSelecting(false);
@@ -88,7 +163,7 @@ export const PdfUpload: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    const pageEl = getPageElement(selection.pageNumber);
+    const pageEl = getCanvasElement(selection.pageNumber);
     if (!pageEl) return;
     const rect = pageEl.getBoundingClientRect();
 
@@ -164,20 +239,22 @@ export const PdfUpload: React.FC = () => {
                   key={pageNumber}
                   className="pdf-page-wrapper"
                   data-page={pageNumber}
+                  ref={setPageRef(pageNumber)}
                   onMouseDown={(e) => handleMouseDown(e, pageNumber)}
                   onMouseMove={(e) => handleMouseMove(e, pageNumber)}
                   onMouseUp={handleMouseUp}
                 >
                   <span className="page-label">Página {pageNumber}</span>
-                  <div className="page-canvas-wrapper">
-                    <Page
-                      pageNumber={pageNumber}
-                      width={700}
-                      onRenderSuccess={(page) => {
-                        setPageWidth(page.width);
-                        setPageHeight(page.height);
-                      }}
-                    />
+                  <div className="page-canvas-wrapper" ref={setCanvasRef(pageNumber)}>
+                    {loadedPages.includes(pageNumber) ? (
+                      <Page
+                        pageNumber={pageNumber}
+                        width={700}
+                        onLoadSuccess={(page) => handlePageLoadSuccess(pageNumber, page)}
+                      />
+                    ) : (
+                      <div style={{ width: 700, height: pageDimensions[pageNumber]?.height || 900 }} />
+                    )}
                     {selection?.pageNumber === pageNumber && (
                       <div className="selection-box" style={getSelectionStyle(pageNumber)} />
                     )}

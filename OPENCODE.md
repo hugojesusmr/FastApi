@@ -1,4 +1,4 @@
-# FastAPI Backend - Sistema de Autenticación (Configuración OpenCode)
+# FastAPI - Sistema PDF Extractor (Configuración OpenCode)
 
 ## Tech Stack
 - **Framework**: FastAPI 0.116.1
@@ -6,6 +6,7 @@
 - **Auth**: JWT + bcrypt
 - **ORM**: SQLModel (SQLAlchemy + Pydantic)
 - **Server**: Uvicorn
+- **PDF**: pdfplumber + python-multipart
 
 ## Arquitectura
 `backend/app/` (Clean Architecture: API → Service → Repository → DB)
@@ -21,6 +22,14 @@
 
 ## Frontend
 - `frontend/mi-app/`: React + Vite + TS (Ver `frontend/mi-app/OPENCODE.md`)
+
+## Endpoints
+| Método | Ruta | Auth |
+|--------|------|------|
+| POST | /api/auth/register | No |
+| POST | /api/auth/login | No |
+| GET  | /api/auth/me | Sí |
+| POST | /api/pdf/extract | Sí |
 
 ## Comandos Principales
 ```bash
@@ -38,7 +47,8 @@ uvicorn app.main:app --reload --port 8000
 ```
 
 ## Convenciones
-- Toda interacción con DB va por `Repository`.
-- Toda lógica de negocio va por `Service`.
-- APIs solo reciben/retornan Pydantic Schemas.
-EOF
+- Toda interacción con DB va por `Repository`
+- Toda lógica de negocio va por `Service`
+- APIs solo reciben/retornan Pydantic Schemas
+- PDF siempre procesado en memoria (`BytesIO`), nunca guardado en disco
+- SECRET_KEY siempre en `.env`, nunca hardcodeada
